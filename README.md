@@ -21,4 +21,4 @@ Change ExpandPathName to wherever you are (ending in .../GeneratorPlotsAlt) and 
 
 `PlotGeneratorQuantities`
 
-The output will be in created in a folder called "SubDir" in the first "MyAnalysis" folder.
+The output will be created in a folder called "SubDir" in the first "MyAnalysis" folder.
