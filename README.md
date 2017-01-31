@@ -15,7 +15,7 @@ PLEASE NOTE: the following files have been modified from the templates
 
 I tried to comment the stuff that I modified specifically with "GitHubProgramCode added."
 
-I left in #include iostream and #include string in PlotGeneratorQuantities.cxx so I could see the "Hi" but commented it out of MyxAODAnalysis.cxx until I could figure out how to convert from ints to strings.
+I left in #include iostream and #include string in PlotGeneratorQuantities.cxx so I could see the "Hi" but commented it out of MyxAODAnalysis.cxx until I could figure out how to convert from ints to strings.  The single "Hi" can be deleted anytime; this was just a test so I could make sure it was compiling correctly and try and troubleshoot the not printing business.
 
 To run the program, do the following after navigating to the working directory where you've cloned "GeneratorPlotsAlt:"
 
