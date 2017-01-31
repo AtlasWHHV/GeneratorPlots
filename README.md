@@ -20,3 +20,5 @@ Change ExpandPathName to wherever you are (ending in .../GeneratorPlotsAlt) and 
 `rc compile`
 
 `PlotGeneratorQuantities`
+
+The output will be in created in a folder called "SubDir" in the first "MyAnalysis" folder.
