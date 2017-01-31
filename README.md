@@ -35,6 +35,8 @@ Change ExpandPathName to wherever you are (ending in .../GeneratorPlotsAlt) and 
 
 `PlotGeneratorQuantities`
 
-The output will be created in a folder called "SubDir" in the first "MyAnalysis" folder.
+The output will be created in a folder called "SubmitDir" in the first "MyAnalysis" folder.
 
 If you get any errors either in performing `rc find_packages` or `rc compile` then something went wrong somewhere along the way.
+
+WARNING: If you attempt to rerun it without first deleting the "submitDir" folder, it'll throw an error!
