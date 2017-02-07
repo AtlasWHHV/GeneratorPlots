@@ -20,6 +20,10 @@
 // #include <iostream>
 // #include <string>
 
+// GitHubProgramCode added
+// To create a basic loop over a jet container, for the AntiKt4EMTTopoJets jet collection.
+#include "xAODJet/JetContainer.h"
+
 // this is needed to distribute the algorithm to the workers
 ClassImp(MyxAODAnalysis)
 
@@ -146,6 +150,19 @@ EL::StatusCode MyxAODAnalysis :: execute ()
     if(eventInfo->eventType( xAOD::EventInfo::IS_SIMULATION ) ){
           isMC = true; // can do something with this later
     }
+
+    // GitHubProgramCode added
+    // get jet container of interest
+      const xAOD::JetContainer* jets = 0;
+      ANA_CHECK(event->retrieve( jets, "AntiKt4EMTopoJets" ));
+      Info("execute()", " number of jets = %lu", jets->size());
+
+      // loop over the jets in the container
+      xAOD::JetContainer::const_iterator jet_itr = jets->begin();
+      xAOD::JetContainer::const_iterator jet_end = jets->end();
+      for( ; jet_itr != jet_end; ++jet_itr ) {
+            Info("execute()", " jet pt = %.2f GeV", ((*jet_itr)->pt() * 0.001)); // just to print out something
+      } // end for loop over jets
 
   return EL::StatusCode::SUCCESS;
 }
