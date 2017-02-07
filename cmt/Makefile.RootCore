@@ -7,7 +7,7 @@
 
 
 # the name of the package:
-PACKAGE              = MyAnalysis
+PACKAGE              = GeneratorPlotsAlt
 
 # the libraries to link with this one:
 PACKAGE_PRELOAD      = 

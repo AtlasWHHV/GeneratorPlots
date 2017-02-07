@@ -1,7 +1,7 @@
 #include <EventLoop/Job.h>
 #include <EventLoop/StatusCode.h>
 #include <EventLoop/Worker.h>
-#include <MyAnalysis/MyxAODAnalysis.h>
+#include <GeneratorPlotsAlt/MyxAODAnalysis.h>
 
 // GitHubProgramCode added
 // Infrastructure include(s):
