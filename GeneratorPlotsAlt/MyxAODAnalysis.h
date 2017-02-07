@@ -1,5 +1,5 @@
-#ifndef MyAnalysis_MyxAODAnalysis_H
-#define MyAnalysis_MyxAODAnalysis_H
+#ifndef GeneratorPlotsAlt_MyxAODAnalysis_H
+#define GeneratorPlotsAlt_MyxAODAnalysis_H
 
 #include <EventLoop/Algorithm.h>
 
