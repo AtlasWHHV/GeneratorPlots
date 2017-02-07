@@ -46,7 +46,7 @@ int main( int argc, char* argv[] ) {
   SH::SampleHandler sh;
 
   // use SampleHandler to scan all of the subdirectories of a directory for particular MC single file:
-  const char* inputFilePath = gSystem->ExpandPathName ("/phys/groups/tev/scratch4/users/nicolasNDS/20170128_Run/");
+  const char* inputFilePath = gSystem->ExpandPathName ("/phys/groups/tev/scratch4/users/nicolasNDS/20170201_Run/");
   SH::ScanDir().filePattern("DAOD_SUSY1.08377960._000012.pool.root.1").scan(sh,inputFilePath);
 
 
