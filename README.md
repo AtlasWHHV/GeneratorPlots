@@ -15,13 +15,13 @@ PLEASE NOTE: the following files have been modified from the templates
 
 I tried to comment the stuff that I modified specifically with "GitHubProgramCode added."
 
-I left in #include iostream and #include string in PlotGeneratorQuantities.cxx so I could see the "Hi" but commented it out of MyxAODAnalysis.cxx until I could figure out how to convert from ints to strings.  The single "Hi" can be deleted anytime; this was just a test so I could make sure it was compiling correctly and try and troubleshoot the not printing business.
+I left in "#include iostream" and "#include string" in PlotGeneratorQuantities.cxx so I could see the "Hi" but commented it out of MyxAODAnalysis.cxx until I could figure out how to convert from ints to strings.  The single "Hi" can be deleted anytime; this was just a test so I could make sure it was compiling correctly and try and troubleshoot the not printing business (please see Issues #2 and #3 on GitHub).
 
-To run the program, do the following after navigating to the working directory where you've cloned "GeneratorPlotsAlt:"
+To run the program, do the following after navigating to the working directory where you've cloned "GeneratorPlotsAlt" (do NOT cd into "GeneratorPlotsAlt"):
 
-Open "MyAnalysis-->MyAnalysis-->util-->PlotGeneratorQuantities.cxx" in your favorite editor.
+Open "GeneratorPlotsAlt-->GeneratorPlotsAlt-->util-->PlotGeneratorQuantities.cxx" in your favorite editor.
 
-Change ExpandPathName to wherever you are (ending in .../GeneratorPlotsAlt) and save.
+Change ExpandPathName to wherever you are (ending in YourWorkingDirectory/, NOT /GeneratorPlotsAlt/) and save.
 
 `bash`
 
@@ -35,8 +35,8 @@ Change ExpandPathName to wherever you are (ending in .../GeneratorPlotsAlt) and 
 
 `PlotGeneratorQuantities`
 
-The output will be created in a folder called "SubmitDir" in the first "MyAnalysis" folder.
+The output will be created in a folder called "SubmitDir" in your working directory.
 
 If you get any errors either in performing `rc find_packages` or `rc compile` then something went wrong somewhere along the way.
 
-WARNING: If you attempt to rerun it without first deleting the "submitDir" folder, it'll throw an error!
+WARNING: If you attempt to rerun it again without first deleting the "submitDir" folder, it'll throw an error!
