@@ -1,27 +1,24 @@
 # GeneratorPlotsAlt
-Alternate GeneratorPlots which compiles easily as a precursor to histograms
+1) 20170128 Alternate GeneratorPlots which compiles easily as a precursor to creating and running steering macros.
+2) 20170207 Alternate GeneratorPlots which compiles easily creating and running steering macros as a precursor to adding objects and tools for analysis.
 
-This repository was created as a precursor to the histograms.  It's been tested to compile correctly.
+This repository has been tested to compile correctly.
 
-PLEASE NOTE: the following files have been modified from the templates
+PLEASE NOTE: the following files have been modified as of 20170207
 
-1) MyxAODAnalysis.h
+1) PlotGeneratorQuantities.cxx
 
-2) MyxAODAnalysis.cxx
+Some stuff that I modified originally is commented with "GitHubProgramCode added."
 
-3) Makefile.RootCore
+I left in "#include iostream" and "#include string" in PlotGeneratorQuantities.cxx so I could see the various "cout" print statements to know that the code was compiling up until that point and troubleshoot various issues (please see Issues n GitHub), but commented it out of MyxAODAnalysis.cxx until I could figure out how to convert from ints to strings.  These devices can be deleted at any time.
 
-4) PlotGeneratorQuantities.cxx
+To run the program, do the following:
 
-I tried to comment the stuff that I modified specifically with "GitHubProgramCode added."
+1) Navigate to /phys/groups/tev/scratch4/users/nicolasNDS/GeneratorPlotsAltMast and copy the file DAOD_TRUTH0.5000_events_v2.pool.root and paste into your working directory.
 
-I left in "#include iostream" and "#include string" in PlotGeneratorQuantities.cxx so I could see the "Hi" but commented it out of MyxAODAnalysis.cxx until I could figure out how to convert from ints to strings.  The single "Hi" can be deleted anytime; this was just a test so I could make sure it was compiling correctly and try and troubleshoot the not printing business (please see Issues #2 and #3 on GitHub).
+2) Navigate to the working directory where you've cloned "GeneratorPlotsAlt" (do NOT cd into "GeneratorPlotsAlt").
 
-To run the program, do the following after navigating to the working directory where you've cloned "GeneratorPlotsAlt" (do NOT cd into "GeneratorPlotsAlt"):
-
-Open "GeneratorPlotsAlt-->GeneratorPlotsAlt-->util-->PlotGeneratorQuantities.cxx" in your favorite editor.
-
-Change ExpandPathName to wherever you are (ending in YourWorkingDirectory/, NOT /GeneratorPlotsAlt/) and save.
+3) Perform the following steps in the Terminal:
 
 `bash`
 
@@ -35,8 +32,12 @@ Change ExpandPathName to wherever you are (ending in YourWorkingDirectory/, NOT 
 
 `PlotGeneratorQuantities`
 
-The output will be created in a folder called "SubmitDir" in your working directory.
+Several different outputs will be created in a folder called "SubmitDir" in your working directory.
 
 If you get any errors either in performing `rc find_packages` or `rc compile` then something went wrong somewhere along the way.
 
-WARNING: If you attempt to rerun it again without first deleting the "submitDir" folder, it'll throw an error!
+If you did everything correctly, in the Terminal you will see it print every 100 events from 0 to 500 so you know where you are.
+
+If you want to view more information, use the root command to look at the .root file(s) created in your submitDir.
+
+WARNING: If you attempt to rerun the program again without first deleting the "submitDir" folder, it'll throw an error!

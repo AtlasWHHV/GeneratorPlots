@@ -46,8 +46,11 @@ int main( int argc, char* argv[] ) {
   SH::SampleHandler sh;
 
   // use SampleHandler to scan all of the subdirectories of a directory for particular MC single file:
-  const char* inputFilePath = gSystem->ExpandPathName ("/phys/groups/tev/scratch4/users/nicolasNDS/20170201_Run/");
-  SH::ScanDir().filePattern("DAOD_SUSY1.08377960._000012.pool.root.1").scan(sh,inputFilePath);
+  const char* inputFilePath = gSystem->ExpandPathName ("./");
+  SH::ScanDir().filePattern("DAOD_TRUTH0.5000_events_v2.pool.root").scan(sh,inputFilePath);
+
+   // GitHubProgramCode added to check to make sure things are working up until this point
+  cout << "Working up 'til here" << endl;
 
 
   // Set the name of the input TTree. It's always "CollectionTree"
