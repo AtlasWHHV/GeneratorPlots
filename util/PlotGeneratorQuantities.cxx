@@ -32,7 +32,7 @@ using namespace std;
 // GitHubProgramCode added
 int main( int argc, char* argv[] ) {
   
-  // // GitHubProgramCode added
+  // GitHubProgramCode added
   cout << "hi" << endl;
 
   // Take the submit directory from the input if provided:
@@ -44,6 +44,10 @@ int main( int argc, char* argv[] ) {
 
   // Construct the samples to run on:
   SH::SampleHandler sh;
+  
+    // // GitHubProgramCode added
+    // sh.load ("submitDir/");
+    // sh.get ("hist")->readHist ("h_jetPt");
 
   // use SampleHandler to scan all of the subdirectories of a directory for particular MC single file:
   const char* inputFilePath = gSystem->ExpandPathName ("./");
@@ -72,6 +76,13 @@ int main( int argc, char* argv[] ) {
   // Run the job using the local/direct driver:
   EL::DirectDriver driver;
   driver.submit( job, submitDir );
+
+  // // GitHubProgramCoded added
+  // // Fetch and plot our histogram
+  //   SH::SampleHandler sh_hist;
+  //   sh_hist.load (submitDir + "/hist");
+  //   TH1 *hist = (TH1*) sh_hist.get ("DAOD_TRUTH0.5000_events_v2.pool.root")->readHist ("h_jetPt");
+  //     hist->Draw ();
 
   return 0;
 }
