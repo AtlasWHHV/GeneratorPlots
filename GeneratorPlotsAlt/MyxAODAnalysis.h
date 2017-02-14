@@ -3,6 +3,9 @@
 
 #include <EventLoop/Algorithm.h>
 
+// GitHubProgramCode added
+#include <TH1.h>
+
 class MyxAODAnalysis : public EL::Algorithm
 {
   // put your configuration variables here as public variables.
@@ -20,6 +23,9 @@ public:
 public:
   // Tree *myTree; //!
   // TH1 *myHist; //!
+
+  // GitHubProgramCode added
+  TH1 *h_jetPt; //! 
 
 
 
