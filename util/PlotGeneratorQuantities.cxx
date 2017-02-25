@@ -50,7 +50,7 @@ int main( int argc, char* argv[] ) {
     // sh.get ("hist")->readHist ("h_jetPt");
 
   // use SampleHandler to scan all of the subdirectories of a directory for particular MC single file:
-  const char* inputFilePath = gSystem->ExpandPathName ("./");
+  const char* inputFilePath = gSystem->ExpandPathName ("$DATAPATH");
   SH::ScanDir().filePattern("DAOD_TRUTH0.5000_events_v2.pool.root").scan(sh,inputFilePath);
 
    // GitHubProgramCode added to check to make sure things are working up until this point

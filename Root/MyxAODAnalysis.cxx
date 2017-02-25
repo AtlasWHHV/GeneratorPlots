@@ -8,6 +8,10 @@
 #include "xAODRootAccess/Init.h"
 #include "xAODRootAccess/TEvent.h"
 
+// Gordoncode
+#include "xAODTruth/TruthEventContainer.h"
+#include "GeneratorPlotsAlt/truth_helpers.h"
+
 // GitHubProgramCode added
 // ASG status code check
 #include <AsgTools/MessageCheck.h>
@@ -158,10 +162,10 @@ EL::StatusCode MyxAODAnalysis :: execute ()
           isMC = true; // can do something with this later
     }
 
-    // GitHubProgramCode added
+    // GitHubProgramCode added + Gordoncode
     // get jet container of interest
       const xAOD::JetContainer* jets = 0;
-      ANA_CHECK(event->retrieve( jets, "AntiKt4EMTopoJets" ));
+      ANA_CHECK(event->retrieve( jets, "TruthEvents" ));
       Info("execute()", " number of jets = %lu", jets->size());
 
       // loop over the jets in the container

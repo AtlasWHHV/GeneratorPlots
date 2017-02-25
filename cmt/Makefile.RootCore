@@ -29,7 +29,7 @@ PACKAGE_LIBFLAGS     =
 
 # the list of packages we depend on:
 # GitHubProgramCode added xAODRootAccess, AsgTools
-PACKAGE_DEP          = EventLoop xAODRootAccess AsgTools xAODEventInfo xAODJet
+PACKAGE_DEP          = EventLoop xAODRootAccess AsgTools xAODEventInfo xAODJet xAODTruth
 
 # the list of packages we use if present, but that we can work without :
 PACKAGE_TRYDEP       = 
