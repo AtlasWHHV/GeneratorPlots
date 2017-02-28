@@ -8,6 +8,10 @@
 #include "xAODRootAccess/Init.h"
 #include "xAODRootAccess/TEvent.h"
 
+// Gordoncode
+#include "xAODTruth/TruthEventContainer.h"
+#include "GeneratorPlotsAlt/truth_helpers.h"
+
 // GitHubProgramCode added
 // ASG status code check
 #include <AsgTools/MessageCheck.h>
@@ -19,6 +23,10 @@
 // // GitHubProgramCode added
 // #include <iostream>
 // #include <string>
+
+// GitHubProgramCode added
+// To create a basic loop over a jet container, for the AntiKt4EMTTopoJets jet collection.
+#include "xAODJet/JetContainer.h"
 
 // this is needed to distribute the algorithm to the workers
 ClassImp(MyxAODAnalysis)
@@ -65,6 +73,13 @@ EL::StatusCode MyxAODAnalysis :: histInitialize ()
   // beginning on each worker node, e.g. create histograms and output
   // trees.  This method gets called before any input files are
   // connected.
+
+  // GitHubProgramCode added
+  // This method is called before processing any events. Note that the wk()->addOutput call is a mechanism EventLoop uses for delivering the results of an algorithm to the outside world. When running in PROOF, ROOT will merge all of the objects in this list.
+  
+  h_jetPt = new TH1F("h_jetPt", "h_jetPt", 100, 0, 500); // jet pt [GeV]
+  wk()->addOutput (h_jetPt);
+
   return EL::StatusCode::SUCCESS;
 }
 
@@ -146,6 +161,19 @@ EL::StatusCode MyxAODAnalysis :: execute ()
     if(eventInfo->eventType( xAOD::EventInfo::IS_SIMULATION ) ){
           isMC = true; // can do something with this later
     }
+
+    // GitHubProgramCode added + Gordoncode
+    // get jet container of interest
+      const xAOD::TruthEventContainer* truths = 0;
+      ANA_CHECK(event->retrieve( truths, "TruthEvents" ));
+      Info("execute()", " number of truths = %lu", truths->size());
+
+      // loop over the jets in the container
+      xAOD::TruthEventContainer::const_iterator truth_itr = truths->begin();
+      xAOD::TruthEventContainer::const_iterator truth_end = truths->end();
+     // for( ; jet_itr != jet_end; ++jet_itr ) {
+     //       Info("execute()", " jet pt = %.2f GeV", ((*jet_itr)->pt() * 0.001)); // just to print out something
+     // } // end for loop over jets
 
   return EL::StatusCode::SUCCESS;
 }
