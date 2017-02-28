@@ -41,7 +41,7 @@ Several different outputs will be created in a folder called "SubmitDir" in your
 
 If you get any errors either in performing `rc find_packages` or `rc compile` then something went wrong somewhere along the way.
 
-If you did everything correctly, in the Terminal you will see it print every 100 events from 0 to 500 so you know where you are.  You have to be a bit patient; your /hist and /input directories will not display unti the program has finished running.
+If you did everything correctly, in the Terminal you will see it print every 100 events from 0 to 500 so you know where you are.  You have to be a bit patient; your /hist and /input directories will not display until the program has finished running.
 
 If you want to view more information, use the root command to look at the .root file(s) created in your submitDir.
 
