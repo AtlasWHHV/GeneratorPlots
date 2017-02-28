@@ -164,16 +164,16 @@ EL::StatusCode MyxAODAnalysis :: execute ()
 
     // GitHubProgramCode added + Gordoncode
     // get jet container of interest
-      const xAOD::JetContainer* jets = 0;
-      ANA_CHECK(event->retrieve( jets, "TruthEvents" ));
-      Info("execute()", " number of jets = %lu", jets->size());
+      const xAOD::TruthEventContainer* truths = 0;
+      ANA_CHECK(event->retrieve( truths, "TruthEvents" ));
+      Info("execute()", " number of truths = %lu", truths->size());
 
       // loop over the jets in the container
-      xAOD::JetContainer::const_iterator jet_itr = jets->begin();
-      xAOD::JetContainer::const_iterator jet_end = jets->end();
-      for( ; jet_itr != jet_end; ++jet_itr ) {
-            Info("execute()", " jet pt = %.2f GeV", ((*jet_itr)->pt() * 0.001)); // just to print out something
-      } // end for loop over jets
+      xAOD::TruthEventContainer::const_iterator truth_itr = truths->begin();
+      xAOD::TruthEventContainer::const_iterator truth_end = truths->end();
+     // for( ; jet_itr != jet_end; ++jet_itr ) {
+     //       Info("execute()", " jet pt = %.2f GeV", ((*jet_itr)->pt() * 0.001)); // just to print out something
+     // } // end for loop over jets
 
   return EL::StatusCode::SUCCESS;
 }
