@@ -34,7 +34,7 @@ class two_particle_plots {
   void EndOfEvent()
   {
     if (_stash.size() < 2) {
-      cout << "At end of event, not enough particles" << endl;
+      std::cout << "At end of event, not enough particles" << std::endl;
     }
 
     bool electrons=false;
@@ -66,7 +66,7 @@ class two_particle_plots {
   }
 
  private:
-  vector<const xAOD::TruthParticle *> _stash;
+  std::vector<const xAOD::TruthParticle *> _stash;
   TH1F *_deltaR;
   TH1F *_deltaPhi;
   TH1F *_deltaEta;

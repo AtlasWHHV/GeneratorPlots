@@ -9,6 +9,9 @@
 
 #include <string>
 
+// Group added
+using namespace std;
+
 class lifetime_plots {
  public:
   // Book the plots

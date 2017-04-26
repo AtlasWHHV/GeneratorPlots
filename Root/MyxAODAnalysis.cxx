@@ -28,6 +28,18 @@
 // To create a basic loop over a jet container, for the AntiKt4EMTTopoJets jet collection.
 #include "xAODJet/JetContainer.h"
 
+// Gordoncode added from validationPlots_HSS.cxx
+//#include "MCValidation/template_access.h"
+#include "MCValidation/two_particle_plots.h"
+#include "MCValidation/standard_p_plots.h"
+#include "MCValidation/lifetime_plots.h"
+#include "MCValidation/truth_helpers.h"
+
+// Gordoncode added from validationPlots_HSS.cxx
+// Config
+const char *APP_NAME = "validationPlots";
+const char *OutputFile = "validation.root";
+
 // this is needed to distribute the algorithm to the workers
 ClassImp(MyxAODAnalysis)
 
@@ -174,6 +186,48 @@ EL::StatusCode MyxAODAnalysis :: execute ()
      // for( ; jet_itr != jet_end; ++jet_itr ) {
      //       Info("execute()", " jet pt = %.2f GeV", ((*jet_itr)->pt() * 0.001)); // just to print out something
      // } // end for loop over jets
+
+      // Book the histos
+      // Gordoncode from validationPlots_HSS.cxx
+        lifetime_plots     all ("all", "all ");
+        standard_p_plots   hs ("hs", "#h_{s} ");
+        standard_p_plots   hhiggs ("higgs", "Higgs ");
+        two_particle_plots twohs ("twoHS", "Two HSs ");
+        two_particle_plots twojets ("TwoJets", "Two jets ");
+
+    // GitHubProgramCode added + Gordoncode
+      // Get the truth info
+      const xAOD::TruthEventContainer *truth = nullptr;
+      // RETURN_CHECK (APP_NAME, event->retrieve(truth, "TruthEvents"));
+      ANA_CHECK(event->retrieve( truth, "TruthEvents" ));
+      bool isHiggs62 = false;
+      // Loop over all the truth particles in there
+      for (auto evt : *truth) 
+      {
+        for (auto p : truth_as_range(evt)) 
+        {
+             if (p != nullptr) 
+        {
+      all.Process(p);
+      if (p->pdgId() == 35) {
+        hs.Process(p);
+        twohs.addParticle(p);
+        // Changed i --> 0
+        if(p->nParents() > 1) std::cout << "event " << 0 << ": this scalar has " << p->nParents()  << " parents! " << std::endl;
+         // Changed i --> 0
+        if(0 < 5){
+          std::cout << "h_s, particle status: " << p->status() << std::endl;
+          std::cout << "h_s has " << p->nChildren() << std::endl;
+          
+          for(unsigned int k=0; k < p->nChildren(); k++){
+      std::cout <<" h_s child status, id: " << p->child(k)->status() << ", " << p->child(k)->pdgId() << std::endl;
+      }
+        }
+        }
+      }
+    }
+  }
+      
 
   return EL::StatusCode::SUCCESS;
 }
