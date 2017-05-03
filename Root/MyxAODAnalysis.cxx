@@ -40,6 +40,19 @@
 const char *APP_NAME = "validationPlots";
 const char *OutputFile = "validation.root";
 
+// // Book the histos
+//   // Gordoncode from validationPlots_HSS.cxx
+//         lifetime_plots     all ("all", "all ");
+//         standard_p_plots   hs ("hs", "#h_{s} ");
+//         standard_p_plots   hhiggs ("higgs", "Higgs ");
+//         two_particle_plots twohs ("twoHS", "Two HSs ");
+
+// Book the histos
+  // Gordoncode from validationPlots_HSS.cxx
+        lifetime_plots*      all;
+        standard_p_plots*    hs;
+        two_particle_plots*  twohs;
+
 // this is needed to distribute the algorithm to the workers
 ClassImp(MyxAODAnalysis)
 
@@ -91,6 +104,11 @@ EL::StatusCode MyxAODAnalysis :: histInitialize ()
   
   h_jetPt = new TH1F("h_jetPt", "h_jetPt", 100, 0, 500); // jet pt [GeV]
   wk()->addOutput (h_jetPt);
+
+// Initializing histograms
+        all = new lifetime_plots ("all", "all ");
+        hs = new standard_p_plots ("hs", "#h_{s} ");
+        twohs = new two_particle_plots ("twoHS", "Two HSs ");
 
   return EL::StatusCode::SUCCESS;
 }
@@ -168,11 +186,12 @@ EL::StatusCode MyxAODAnalysis :: execute ()
 
     // check if the event is data or MC
     // (many tools are applied either to data or MC)
-    bool isMC = false;
+    // Warning: set but not used below commented out
+    // bool isMC = false;
     // check if the event is MC
-    if(eventInfo->eventType( xAOD::EventInfo::IS_SIMULATION ) ){
-          isMC = true; // can do something with this later
-    }
+    // if(eventInfo->eventType( xAOD::EventInfo::IS_SIMULATION ) ){
+    //       isMC = true; // can do something with this later
+    // }
 
     // GitHubProgramCode added + Gordoncode
     // get jet container of interest
@@ -187,20 +206,13 @@ EL::StatusCode MyxAODAnalysis :: execute ()
      //       Info("execute()", " jet pt = %.2f GeV", ((*jet_itr)->pt() * 0.001)); // just to print out something
      // } // end for loop over jets
 
-      // Book the histos
-      // Gordoncode from validationPlots_HSS.cxx
-        lifetime_plots     all ("all", "all ");
-        standard_p_plots   hs ("hs", "#h_{s} ");
-        standard_p_plots   hhiggs ("higgs", "Higgs ");
-        two_particle_plots twohs ("twoHS", "Two HSs ");
-        two_particle_plots twojets ("TwoJets", "Two jets ");
-
     // GitHubProgramCode added + Gordoncode
       // Get the truth info
       const xAOD::TruthEventContainer *truth = nullptr;
       // RETURN_CHECK (APP_NAME, event->retrieve(truth, "TruthEvents"));
       ANA_CHECK(event->retrieve( truth, "TruthEvents" ));
-      bool isHiggs62 = false;
+      // Warning: set but not used below commented out
+      // bool isHiggs62 = false;
       // Loop over all the truth particles in there
       for (auto evt : *truth) 
       {
@@ -208,10 +220,10 @@ EL::StatusCode MyxAODAnalysis :: execute ()
         {
              if (p != nullptr) 
         {
-      all.Process(p);
+      all->Process(p);
       if (p->pdgId() == 35) {
-        hs.Process(p);
-        twohs.addParticle(p);
+        hs->Process(p);
+        twohs->addParticle(p);
         // Changed i --> 0
         if(p->nParents() > 1) std::cout << "event " << 0 << ": this scalar has " << p->nParents()  << " parents! " << std::endl;
          // Changed i --> 0
@@ -258,7 +270,8 @@ EL::StatusCode MyxAODAnalysis :: finalize ()
   
   // GitHubProgramCode added
   ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
-  xAOD::TEvent* event = wk()->xaodEvent();
+  // Warning: unused variable below commented out
+  // xAOD::TEvent* event = wk()->xaodEvent();
 
   return EL::StatusCode::SUCCESS;
 }
