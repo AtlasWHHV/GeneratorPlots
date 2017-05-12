@@ -75,16 +75,5 @@ int main( int argc, char* argv[] ) {
   EL::DirectDriver driver;
   driver.submit( job, submitDir );
 
-  // GitHubProgramCode added
-  sh.load ("submitDir/");
-  sh.get ("hist")->readHist ("h_jetPt");
-
-  // // GitHubProgramCoded added
-  // Fetch and plot our histogram
-    SH::SampleHandler sh_hist;
-    sh_hist.load (submitDir + "/hist");
-    TH1 *hist = (TH1*) sh_hist.get ("DAOD_TRUTH0.5000_events_v2.pool.root")->readHist ("h_jetPt");
-      hist->Draw ();
-
   return 0;
 }

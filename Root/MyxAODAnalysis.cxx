@@ -106,9 +106,9 @@ EL::StatusCode MyxAODAnalysis :: histInitialize ()
   wk()->addOutput (h_jetPt);
 
 // Initializing histograms
-        all = new lifetime_plots ("all", "all ");
-        hs = new standard_p_plots ("hs", "#h_{s} ");
-        twohs = new two_particle_plots ("twoHS", "Two HSs ");
+        all = new lifetime_plots ("all", "all ", wk());
+        hs = new standard_p_plots ("hs", "#h_{s} ", wk());
+        twohs = new two_particle_plots ("twoHS", "Two HSs ", wk());
 
   return EL::StatusCode::SUCCESS;
 }

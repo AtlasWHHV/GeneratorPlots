@@ -3,26 +3,39 @@
 
 #include "xAODTruth/TruthParticle.h"
 #include "TH1.h"
+#include <EventLoop/Worker.h>
 
 #include <string>
 
 class two_particle_plots {
  public:
 
-  two_particle_plots(const std::string &name, const std::string &title)
+  two_particle_plots(const std::string &name, const std::string &title, EL::Worker *wk)
   {
     _deltaR       = new TH1F ((name + "DR"  ).c_str(),     (title + "\\Delta R; \\Delta R").c_str(), 100, 0.0, 5.0);
+    wk->addOutput (_deltaR);
     _deltaPhi     = new TH1F ((name + "Dphi").c_str(),     (title + "|\\Delta \\phi|; |\\Delta \\phi|").c_str(), 100, 0, 3.5);
+    wk->addOutput (_deltaPhi);
     _deltaEta     = new TH1F ((name + "Deta").c_str(),     (title + "|\\Delta \\eta|; |\\Delta \\eta|").c_str(), 100, 0, 3.0 );
+    wk->addOutput (_deltaEta);
     _deltaR_e     = new TH1F ((name + "DR_e"  ).c_str(),   (title + "\\Delta R  electrons; \\Delta R  electrons").c_str(), 100, 0.0, 5.0);
+    wk->addOutput (_deltaR_e);
     _deltaPhi_e   = new TH1F ((name + "Dphi_e").c_str(),   (title + "|\\Delta \\phi|  electrons; |\\Delta \\phi|  electrons").c_str(), 100, 0, 3.5);
+    wk->addOutput (_deltaPhi_e);
     _deltaEta_e   = new TH1F ((name + "Deta_e").c_str(),   (title + "|\\Delta \\eta|  electrons; |\\Delta \\eta|  electrons").c_str(), 100, 0, 3.0 );
+    wk->addOutput (_deltaEta_e);
     _deltaR_mu    = new TH1F ((name + "DR_mu"  ).c_str(),  (title + "\\Delta R  muons; \\Delta R  muons").c_str(), 100, 0.0, 5.0);
+    wk->addOutput (_deltaR_mu);
     _deltaPhi_mu  = new TH1F ((name + "Dphi_mu").c_str(),  (title + "|\\Delta \\phi|  muons; |\\Delta \\phi|  muons").c_str(), 100, 0, 3.5);
+    wk->addOutput (_deltaPhi_mu);
     _deltaEta_mu  = new TH1F ((name + "Deta_mu").c_str(),  (title + "|\\Delta \\eta|  muons; |\\Delta \\eta|  muons").c_str(), 100, 0, 3.0 );
+    wk->addOutput (_deltaEta_mu);
     _deltaR_tau   = new TH1F ((name + "DR_tau"  ).c_str(), (title + "\\Delta R  taus; \\Delta R  taus").c_str(), 100, 0.0, 5.0);
+    wk->addOutput (_deltaR_tau);
     _deltaPhi_tau = new TH1F ((name + "Dphi_tau").c_str(), (title + "|\\Delta \\phi|  taus; |\\Delta \\phi|  taus").c_str(), 100, 0, 3.5);
+    wk->addOutput (_deltaPhi_tau);
     _deltaEta_tau = new TH1F ((name + "Deta_tau").c_str(), (title + "|\\Delta \\eta|  taus; |\\Delta \\eta|  taus").c_str(), 100, 0, 3.0 );
+    wk->addOutput (_deltaEta_tau);
   }
 
   void addParticle (const xAOD::TruthParticle *p)
