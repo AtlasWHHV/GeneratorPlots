@@ -3,6 +3,7 @@
 
 #include "xAODTruth/TruthParticle.h"
 #include "xAODTruth/TruthVertex.h"
+#include <EventLoop/Worker.h>
 
 #include "TH1F.h"
 #include "TH2F.h"
@@ -12,34 +13,59 @@
 class standard_p_plots {
  public:
   // Book the plots
-  standard_p_plots (const std::string &name, const std::string &title, int maxN = 10)
+  standard_p_plots (const std::string &name, const std::string &title, EL::Worker *wk, int maxN = 10)
     {
       _mass = new TH1F((name + "mass").c_str(), (title + "mass; mass [GeV]").c_str(), 6000, 0.0, 6000.0);
+      wk->addOutput (_mass);
       _pz = new TH1F((name + "pz").c_str(), (title + "|p_{z}|; |p_{z}| [GeV]").c_str(), 200, 0.0, 3000.0);
+      wk->addOutput (_pz);
       _pt = new TH1F((name + "pt").c_str(), (title + "p_{T}; p_{T} [GeV]").c_str(), 250, 0.0, 2000.0);
+      wk->addOutput (_pt);
       _eta = new TH1F((name + "eta").c_str(), (title + "\\eta; \\eta").c_str(), 200, -5.0, 5.0);
+      wk->addOutput (_eta);
       _phi = new TH1F((name + "phi").c_str(), (title + "\\phi; \\phi [rad]").c_str(), 200, -3.15, 3.15);
+      wk->addOutput (_phi);
       _E = new TH1F((name + "E").c_str(), (title + "E; E [GeV]").c_str(), 300, 0.0, 4500.0);
+      wk->addOutput (_E);
       _N = new TH1F((name + "N").c_str(), (title + "N; N").c_str(), maxN, 0, maxN);
+      wk->addOutput (_N);
       _status = new TH1F((name + "StatusCode").c_str(), (title + "status; status").c_str(), 100, 0, 100);
+      wk->addOutput (_status);
       _decayTime = new TH1F((name + "DecayTime").c_str(), (title + "Time; Time [ns]").c_str(), 300, 0, 30);
+      wk->addOutput (_decayTime);
       _ctau = new TH1F((name + "ctau").c_str(), (title + "c*tau; c*tau [m]").c_str(), 600, 0, 30);
+      wk->addOutput (_ctau);
       _lxy = new TH1F((name + "Lxy").c_str(), (title + " L_{xy}; L_{xy} [m]").c_str(), 200, 0.0, 20);
+      wk->addOutput (_lxy);
       _lxy_B = new TH1F((name + "Lxy_Barr").c_str(), (title + " L_{xy} barrel; L_{xy} barrel [m]").c_str(), 200, 0.0, 20);
+      wk->addOutput (_lxy_B);
       _lxy_E = new TH1F((name + "Lxy_EndC").c_str(), (title + " L_{xy} end-caps; L_{xy} end-caps [m]").c_str(), 200, 0.0, 20);
+      wk->addOutput (_lxy_E);
       _lz = new TH1F((name + "Lz").c_str(), (title + " L_{z}; L_{z} [m]").c_str(), 200, 0.0, 20);
+      wk->addOutput (_lz);
       _lz_B = new TH1F((name + "Lz_Barr").c_str(), (title + " L_{z} barrel; L_{z} barrel [m]").c_str(), 200, 0.0, 20);
+      wk->addOutput (_lz_B);
       _lz_E = new TH1F((name + "Lz_EndC").c_str(), (title + " L_{z} end-caps; L_{z} end-caps [m]").c_str(), 200, 0.0, 20);
+      wk->addOutput (_lz_E);
       _beta = new TH1F((name + "Beta").c_str(), (title + " Beta; #beta").c_str(), 220, 0.0, 1.1);
+      wk->addOutput (_beta);
       _counter = 0;
       _BRs = new TH1F((name + "BR").c_str(), (title + " Braching ratios; branching ratio [pdgid]").c_str(),50,0,50);
+      wk->addOutput (_BRs);
       _deltaT = new TH1F((name + "DeltaT").c_str(), (title + " Delta t; t_{dec} - t_{prod} [ns]").c_str(),260,-6,20);
+      wk->addOutput (_deltaT);
       _evtsID = new TH2F((name + "EvtsID").c_str(), (title + " Events in the ID").c_str(),40,0,0.4,28,0,0.28);
+      wk->addOutput (_evtsID);
       _evtsMS_B = new TH2F((name + "EvtsMS_B").c_str(), (title + " Events in the MS (barrel)").c_str(),60,0,15,20,3,8);
+      wk->addOutput (_evtsMS_B);
       _evtsMS_E = new TH2F((name + "EvtsMS_E").c_str(), (title + " Events in the MS (end-cap)").c_str(),20,5,15,20,0,10);
+      wk->addOutput (_evtsMS_E);
       _evtsID_lxy = new TH1F((name + "EvtsID_Lxy").c_str(), (title + " Events in the ID vs Lxy; L_{xy} [m]").c_str(),28,0,0.28);
+      wk->addOutput (_evtsID_lxy);
       _evtsMS_B_lxy = new TH1F((name + "EvtsMS_B_Lxy").c_str(), (title + " Events in the MS (barrel) vs Lxy; L_{xy} [m]").c_str(),20,3,8);
+      wk->addOutput (_evtsMS_B_lxy);
       _evtsMS_E_lz = new TH1F((name + "EvtsMS_E_Lz").c_str(), (title + " Events in the MS (end-cap) vs Lz; L_{z} [m]").c_str(),20,5,15);
+      wk->addOutput (_evtsMS_E_lz);
     }
 
   // Fill the plots.

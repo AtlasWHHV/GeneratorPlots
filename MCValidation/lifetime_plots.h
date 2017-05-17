@@ -3,18 +3,23 @@
 
 #include "xAODTruth/TruthParticle.h"
 #include "xAODTruth/TruthVertex.h"
+#include <EventLoop/Worker.h>
 
 #include "TH1F.h"
 #include "TH2F.h"
 
 #include <string>
 
+// Group added
+using namespace std;
+
 class lifetime_plots {
  public:
   // Book the plots
-  lifetime_plots (const std::string &name, const std::string &title, int maxN = 10)
+  lifetime_plots (const std::string &name, const std::string &title, EL::Worker *wk, int maxN = 10)
     {
       _deltaT = new TH1F((name + "DeltaT").c_str(), (title + " Delta t; t_{dec} - t_{prod} [ns]").c_str(),260,-6,20);
+      wk->addOutput (_deltaT);
     }
 
   // Fill the plots.
