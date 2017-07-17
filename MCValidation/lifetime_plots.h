@@ -31,7 +31,7 @@ class lifetime_plots {
         {
           cout << " - Decay = " << p->decayVtx()->v4().T()*0.001 << endl;
           cout << " - Prod  = " << p->prodVtx()->v4().T()*0.001 << endl;
-	  cout << "         -- diff = " << p->decayVtx()->v4().T()*0.001 - p->prodVtx()->v4().T()*0.001 << endl;	
+          cout << "         -- diff = " << p->decayVtx()->v4().T()*0.001 - p->prodVtx()->v4().T()*0.001 << endl;	
         }
       }
     }
