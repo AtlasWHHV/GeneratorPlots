@@ -59,12 +59,10 @@ EL::StatusCode MyxAODAnalysis :: setupJob (EL::Job& job)
   // activated/deactivated when you add/remove the algorithm from your
   // job, which may or may not be of value to you.
 
-  // GitHubProgramCode added
   // let's initialize the algorithm to use the xAODRootAccess package
   job.useXAOD ();
-  // xAOD::Init(); // call before opening first file
   ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
-    ANA_CHECK(xAOD::Init());
+  ANA_CHECK(xAOD::Init());
 
   return EL::StatusCode::SUCCESS;
 }
@@ -78,7 +76,6 @@ EL::StatusCode MyxAODAnalysis :: histInitialize ()
   // trees.  This method gets called before any input files are
   // connected.
 
-  // GitHubProgramCode added
   // This method is called before processing any events. Note that the wk()->addOutput call is a mechanism EventLoop uses for delivering the results of an algorithm to the outside world. When running in PROOF, ROOT will merge all of the objects in this list.
 
   // Initializing histograms
@@ -109,6 +106,7 @@ EL::StatusCode MyxAODAnalysis :: changeInput (bool firstFile)
   // Here you do everything you need to do when we change input files,
   // e.g. resetting branch addresses on trees.  If you are using
   // D3PDReader or a similar service this method is not needed.
+  (void)firstFile; // Suppress unused-variable warning. 
   return EL::StatusCode::SUCCESS;
 }
 
@@ -125,17 +123,14 @@ EL::StatusCode MyxAODAnalysis :: initialize ()
   // you create here won't be available in the output if you have no
   // input events.
 
-  // GitHubProgramCode added
   ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
   xAOD::TEvent* event = wk()->xaodEvent();
 
-  // GitHubProgramCode added
   // as a check, let's see the number of events in our xAOD
   Info("initialize()", "Number of events = %lli", event->getEntries() ); // print long long int
 
-  // GitHubProgramCode added
   // count number of events
-    m_eventCounter = 0;
+  m_eventCounter = 0;
 
   return EL::StatusCode::SUCCESS;
 }
@@ -149,47 +144,20 @@ EL::StatusCode MyxAODAnalysis :: execute ()
   // histograms and trees.  This is where most of your actual analysis
   // code will go.
 
-  // GitHubProgramCode added
   ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
   xAOD::TEvent* event = wk()->xaodEvent();
 
-  // GitHubProgramCode added
   // print every 100 events, so we know where we are:
-  if( (m_eventCounter % 100) ==0 ) Info("execute()", "Event number = %i", m_eventCounter );
+  if ((m_eventCounter % 100) == 0) 
+  {
+    Info("execute()", "Event number = %i", m_eventCounter);
+  }
   m_eventCounter++;
 
-  //----------------------------
-  // Event information
-  //---------------------------
-  const xAOD::EventInfo* eventInfo = 0;
-  ANA_CHECK(event->retrieve( eventInfo, "EventInfo"));
-
-  // check if the event is data or MC
-  // (many tools are applied either to data or MC)
-  // Warning: set but not used below commented out
-  // bool isMC = false;
-  // check if the event is MC
-  // if(eventInfo->eventType( xAOD::EventInfo::IS_SIMULATION ) ){
-  //       isMC = true; // can do something with this later
-  // }
-
-  // GitHubProgramCode added + Gordoncode
-  // get jet container of interest
-  const xAOD::TruthEventContainer* truths = 0;
-  ANA_CHECK(event->retrieve( truths, "TruthEvents" ));
-  Info("execute()", " number of truths = %lu", truths->size());
-
-  // loop over the jets in the container
-  xAOD::TruthEventContainer::const_iterator truth_itr = truths->begin();
-  xAOD::TruthEventContainer::const_iterator truth_end = truths->end();
-      
-  // Get the truth info
+  // Get the truth events.
   const xAOD::TruthEventContainer *truth = nullptr;
-  // RETURN_CHECK (APP_NAME, event->retrieve(truth, "TruthEvents"));
-  ANA_CHECK(event->retrieve( truth, "TruthEvents" ));
-  // Warning: set but not used below commented out
-  // bool isHiggs62 = false;
-  // Loop over all the truth particles in there
+  ANA_CHECK(event->retrieve( truth, "TruthEvents"));
+  // Loop over all of the truth events.
   for (auto evt : *truth) 
   {
     for (auto p : truth_as_range(evt)) 
@@ -249,10 +217,7 @@ EL::StatusCode MyxAODAnalysis :: finalize ()
   // merged.  This is different from histFinalize() in that it only
   // gets called on worker nodes that processed input events.
   
-  // GitHubProgramCode added
   ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
-  // Warning: unused variable below commented out
-  // xAOD::TEvent* event = wk()->xaodEvent();
 
   return EL::StatusCode::SUCCESS;
 }

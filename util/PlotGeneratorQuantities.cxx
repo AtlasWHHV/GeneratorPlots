@@ -1,10 +1,8 @@
 // Generate plots from a xAOD file that has the EVNT banks in it.
 //
 // Usage:
-//    PlotGeneratorQanitites
-//
+//    PlotGeneratorQuanitites
 
-// GitHubProgramCode added
 #include "xAODRootAccess/Init.h"
 #include "SampleHandler/SampleHandler.h"
 #include "SampleHandler/ScanDir.h"
@@ -14,8 +12,6 @@
 #include "SampleHandler/DiskListLocal.h"
 #include <TSystem.h>
 
-
-// GitHubProgramCode added
 #include "GeneratorPlotsAlt/MyxAODAnalysis.h"
 
 #include <iostream>
@@ -25,21 +21,18 @@
 
 using namespace std;
 
-// int main()
-// {
-//   cout << "hi" << endl;
-// }
 
 
-// GitHubProgramCode added
-int main( int argc, char* argv[] ) {
-  
-  // GitHubProgramCode added
+int main( int argc, char* argv[] )
+{
   cout << "hi" << endl;
 
   // Take the submit directory from the input if provided:
   std::string submitDir = "submitDir";
-  if( argc > 1 ) submitDir = argv[ 1 ];
+  if (argc > 1) 
+  {
+    submitDir = argv[1];
+  }
 
   // Set up the job for xAOD access:
   xAOD::Init().ignore();
@@ -48,32 +41,28 @@ int main( int argc, char* argv[] ) {
   SH::SampleHandler sh;
 
   // use SampleHandler to scan all of the subdirectories of a directory for particular MC single file:
-  const char* inputFilePath = gSystem->ExpandPathName ("$DATAPATH");
+  const char* inputFilePath = gSystem->ExpandPathName("$DATAPATH");
   SH::ScanDir().filePattern("DAOD_TRUTH0.5000_events_v2.pool.root").scan(sh,inputFilePath);
-
-   // GitHubProgramCode added to check to make sure things are working up until this point
-  cout << "Working up 'til here" << endl;
-
 
   // Set the name of the input TTree. It's always "CollectionTree"
   // for xAOD files.
-  sh.setMetaString( "nc_tree", "CollectionTree" );
+  sh.setMetaString("nc_tree", "CollectionTree");
 
   // Print what we found:
   sh.print();
 
   // Create an EventLoop job:
   EL::Job job;
-  job.sampleHandler( sh );
-  job.options()->setDouble (EL::Job::optMaxEvents, 500);
+  job.sampleHandler(sh);
+  job.options()->setDouble(EL::Job::optMaxEvents, 500);
 
   // Add our analysis to the job:
   MyxAODAnalysis* alg = new MyxAODAnalysis();
-  job.algsAdd( alg );
+  job.algsAdd(alg);
 
   // Run the job using the local/direct driver:
   EL::DirectDriver driver;
-  driver.submit( job, submitDir );
+  driver.submit(job, submitDir);
 
   return 0;
 }
