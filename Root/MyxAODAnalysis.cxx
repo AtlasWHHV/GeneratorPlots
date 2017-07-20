@@ -3,7 +3,6 @@
 #include <EventLoop/Worker.h>
 #include <GeneratorPlotsAlt/MyxAODAnalysis.h>
 
-// GitHubProgramCode added
 // Infrastructure include(s):
 #include "xAODRootAccess/Init.h"
 #include "xAODRootAccess/TEvent.h"
@@ -12,46 +11,26 @@
 #include "xAODTruth/TruthEventContainer.h"
 #include "GeneratorPlotsAlt/truth_helpers.h"
 
-// GitHubProgramCode added
 // ASG status code check
 #include <AsgTools/MessageCheck.h>
 
-// GitHubProgramCode added
 // EDM includes:
 #include "xAODEventInfo/EventInfo.h"
 
-// // GitHubProgramCode added
-// #include <iostream>
-// #include <string>
-
-// GitHubProgramCode added
 // To create a basic loop over a jet container, for the AntiKt4EMTTopoJets jet collection.
 #include "xAODJet/JetContainer.h"
 
-// Gordoncode added from validationPlots_HSS.cxx
-//#include "MCValidation/template_access.h"
+// Validation histograms:
+#include "MCValidation/lepton_plots.h"
+#include "MCValidation/neutrino_plots.h"
 #include "MCValidation/two_particle_plots.h"
 #include "MCValidation/standard_p_plots.h"
 #include "MCValidation/lifetime_plots.h"
 #include "MCValidation/truth_helpers.h"
 
-// Gordoncode added from validationPlots_HSS.cxx
 // Config
 const char *APP_NAME = "validationPlots";
 const char *OutputFile = "validation.root";
-
-// // Book the histos
-//   // Gordoncode from validationPlots_HSS.cxx
-//         lifetime_plots     all ("all", "all ");
-//         standard_p_plots   hs ("hs", "#h_{s} ");
-//         standard_p_plots   hhiggs ("higgs", "Higgs ");
-//         two_particle_plots twohs ("twoHS", "Two HSs ");
-
-// Book the histos
-  // Gordoncode from validationPlots_HSS.cxx
-        lifetime_plots*      all;
-        standard_p_plots*    hs;
-        two_particle_plots*  twohs;
 
 // this is needed to distribute the algorithm to the workers
 ClassImp(MyxAODAnalysis)
@@ -80,12 +59,10 @@ EL::StatusCode MyxAODAnalysis :: setupJob (EL::Job& job)
   // activated/deactivated when you add/remove the algorithm from your
   // job, which may or may not be of value to you.
 
-  // GitHubProgramCode added
   // let's initialize the algorithm to use the xAODRootAccess package
   job.useXAOD ();
-  // xAOD::Init(); // call before opening first file
   ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
-    ANA_CHECK(xAOD::Init());
+  ANA_CHECK(xAOD::Init());
 
   return EL::StatusCode::SUCCESS;
 }
@@ -99,16 +76,16 @@ EL::StatusCode MyxAODAnalysis :: histInitialize ()
   // trees.  This method gets called before any input files are
   // connected.
 
-  // GitHubProgramCode added
   // This method is called before processing any events. Note that the wk()->addOutput call is a mechanism EventLoop uses for delivering the results of an algorithm to the outside world. When running in PROOF, ROOT will merge all of the objects in this list.
-  
-  h_jetPt = new TH1F("h_jetPt", "h_jetPt", 100, 0, 500); // jet pt [GeV]
-  wk()->addOutput (h_jetPt);
 
-// Initializing histograms
-        all = new lifetime_plots ("all", "all ", wk());
-        hs = new standard_p_plots ("hs", "#h_{s} ", wk());
-        twohs = new two_particle_plots ("twoHS", "Two HSs ", wk());
+  // Initializing histograms
+  all = new lifetime_plots ("all", "all ", wk());
+  hs = new standard_p_plots ("hs", "#h_{s} ", wk());
+  twohs = new two_particle_plots ("twoHS", "Two HSs ", wk());
+  e_neutrino = new neutrino_plots ("e_neutrino_", "\\nu_{e} ", wk());
+  mu_neutrino = new neutrino_plots ("mu_neutrino_", "\\nu_{\\mu} ", wk());
+  e = new lepton_plots ("e_", "e ", wk());
+  mu = new lepton_plots("mu_", "\\mu ", wk());
 
   return EL::StatusCode::SUCCESS;
 }
@@ -129,6 +106,7 @@ EL::StatusCode MyxAODAnalysis :: changeInput (bool firstFile)
   // Here you do everything you need to do when we change input files,
   // e.g. resetting branch addresses on trees.  If you are using
   // D3PDReader or a similar service this method is not needed.
+  (void)firstFile; // Suppress unused-variable warning. 
   return EL::StatusCode::SUCCESS;
 }
 
@@ -145,17 +123,14 @@ EL::StatusCode MyxAODAnalysis :: initialize ()
   // you create here won't be available in the output if you have no
   // input events.
 
-  // GitHubProgramCode added
   ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
   xAOD::TEvent* event = wk()->xaodEvent();
 
-  // GitHubProgramCode added
   // as a check, let's see the number of events in our xAOD
   Info("initialize()", "Number of events = %lli", event->getEntries() ); // print long long int
 
-  // GitHubProgramCode added
   // count number of events
-    m_eventCounter = 0;
+  m_eventCounter = 0;
 
   return EL::StatusCode::SUCCESS;
 }
@@ -169,77 +144,51 @@ EL::StatusCode MyxAODAnalysis :: execute ()
   // histograms and trees.  This is where most of your actual analysis
   // code will go.
 
-  // GitHubProgramCode added
   ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
   xAOD::TEvent* event = wk()->xaodEvent();
 
-  // GitHubProgramCode added
   // print every 100 events, so we know where we are:
-    if( (m_eventCounter % 100) ==0 ) Info("execute()", "Event number = %i", m_eventCounter );
-    m_eventCounter++;
+  if ((m_eventCounter % 100) == 0) 
+  {
+    Info("execute()", "Event number = %i", m_eventCounter);
+  }
+  m_eventCounter++;
 
-    //----------------------------
-    // Event information
-    //---------------------------
-    const xAOD::EventInfo* eventInfo = 0;
-    ANA_CHECK(event->retrieve( eventInfo, "EventInfo"));
-
-    // check if the event is data or MC
-    // (many tools are applied either to data or MC)
-    // Warning: set but not used below commented out
-    // bool isMC = false;
-    // check if the event is MC
-    // if(eventInfo->eventType( xAOD::EventInfo::IS_SIMULATION ) ){
-    //       isMC = true; // can do something with this later
-    // }
-
-    // GitHubProgramCode added + Gordoncode
-    // get jet container of interest
-      const xAOD::TruthEventContainer* truths = 0;
-      ANA_CHECK(event->retrieve( truths, "TruthEvents" ));
-      Info("execute()", " number of truths = %lu", truths->size());
-
-      // loop over the jets in the container
-      xAOD::TruthEventContainer::const_iterator truth_itr = truths->begin();
-      xAOD::TruthEventContainer::const_iterator truth_end = truths->end();
-     // for( ; jet_itr != jet_end; ++jet_itr ) {
-     //       Info("execute()", " jet pt = %.2f GeV", ((*jet_itr)->pt() * 0.001)); // just to print out something
-     // } // end for loop over jets
-
-    // GitHubProgramCode added + Gordoncode
-      // Get the truth info
-      const xAOD::TruthEventContainer *truth = nullptr;
-      // RETURN_CHECK (APP_NAME, event->retrieve(truth, "TruthEvents"));
-      ANA_CHECK(event->retrieve( truth, "TruthEvents" ));
-      // Warning: set but not used below commented out
-      // bool isHiggs62 = false;
-      // Loop over all the truth particles in there
-      for (auto evt : *truth) 
+  // Get the truth events.
+  const xAOD::TruthEventContainer *truth = nullptr;
+  ANA_CHECK(event->retrieve( truth, "TruthEvents"));
+  // Loop over all of the truth events.
+  for (auto evt : *truth) 
+  {
+    for (auto p : truth_as_range(evt)) 
+    {
+      if (p != nullptr) 
       {
-        for (auto p : truth_as_range(evt)) 
+        all->Process(p);
+        if (p->pdgId() == 35) // 35 is the higgs' pdgId.
         {
-             if (p != nullptr) 
-        {
-      all->Process(p);
-      if (p->pdgId() == 35) {
-        hs->Process(p);
-        twohs->addParticle(p);
-        // Changed i --> 0
-        if(p->nParents() > 1) std::cout << "event " << 0 << ": this scalar has " << p->nParents()  << " parents! " << std::endl;
-         // Changed i --> 0
-        if(0 < 5){
-          std::cout << "h_s, particle status: " << p->status() << std::endl;
-          std::cout << "h_s has " << p->nChildren() << std::endl;
-          
-          for(unsigned int k=0; k < p->nChildren(); k++){
-      std::cout <<" h_s child status, id: " << p->child(k)->status() << ", " << p->child(k)->pdgId() << std::endl;
-      }
+          hs->Process(p);
+          twohs->addParticle(p);
         }
+	else if (p->pdgId() == 11) // 11 is the electron.
+        {
+          e->Process(p);
+        }
+        else if (p->pdgId() == 12) // 12 is the electron neutrino.
+        {
+          e_neutrino->Process(p);
+        }
+        else if (p->pdgId() == 13) // 13 is the muon.
+        {
+          mu->Process(p);
+        }
+        else if (p->pdgId() == 14) // 14 is the muon neutrino.
+        {
+          mu_neutrino->Process(p);
         }
       }
     }
   }
-      
 
   return EL::StatusCode::SUCCESS;
 }
@@ -268,10 +217,7 @@ EL::StatusCode MyxAODAnalysis :: finalize ()
   // merged.  This is different from histFinalize() in that it only
   // gets called on worker nodes that processed input events.
   
-  // GitHubProgramCode added
   ANA_CHECK_SET_TYPE (EL::StatusCode); // set type of return code you are expecting (add to top of each function once)
-  // Warning: unused variable below commented out
-  // xAOD::TEvent* event = wk()->xaodEvent();
 
   return EL::StatusCode::SUCCESS;
 }
