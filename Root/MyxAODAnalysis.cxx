@@ -21,12 +21,11 @@
 #include "xAODJet/JetContainer.h"
 
 // Validation histograms:
-#include "MCValidation/lepton_plots.h"
-#include "MCValidation/neutrino_plots.h"
-#include "MCValidation/two_particle_plots.h"
-#include "MCValidation/standard_p_plots.h"
-#include "MCValidation/lifetime_plots.h"
-#include "MCValidation/truth_helpers.h"
+#include "GeneratorPlotsAlt/lepton_plots.h"
+#include "GeneratorPlotsAlt/two_particle_plots.h"
+#include "GeneratorPlotsAlt/standard_p_plots.h"
+#include "GeneratorPlotsAlt/lifetime_plots.h"
+#include "GeneratorPlotsAlt/truth_helpers.h"
 
 // Config
 const char *APP_NAME = "validationPlots";
@@ -82,10 +81,10 @@ EL::StatusCode MyxAODAnalysis :: histInitialize ()
   all = new lifetime_plots ("all", "all ", wk());
   hs = new standard_p_plots ("hs", "#h_{s} ", wk());
   twohs = new two_particle_plots ("twoHS", "Two HSs ", wk());
-  e_neutrino = new neutrino_plots ("e_neutrino_", "\\nu_{e} ", wk());
-  mu_neutrino = new neutrino_plots ("mu_neutrino_", "\\nu_{\\mu} ", wk());
-  e = new lepton_plots ("e_", "e ", wk());
-  mu = new lepton_plots("mu_", "\\mu ", wk());
+  e_neutrino = new lepton_plots ("e_neutrino_", "\\nu_{e} ", wk(), false);
+  mu_neutrino = new lepton_plots ("mu_neutrino_", "\\nu_{\\mu} ", wk(), false);
+  e = new lepton_plots ("e_", "e ", wk(), true);
+  mu = new lepton_plots ("mu_", "\\mu ", wk(), true);
 
   return EL::StatusCode::SUCCESS;
 }
@@ -170,7 +169,7 @@ EL::StatusCode MyxAODAnalysis :: execute ()
           hs->Process(p);
           twohs->addParticle(p);
         }
-	else if (p->pdgId() == 11) // 11 is the electron.
+        else if (p->pdgId() == 11) // 11 is the electron.
         {
           e->Process(p);
         }

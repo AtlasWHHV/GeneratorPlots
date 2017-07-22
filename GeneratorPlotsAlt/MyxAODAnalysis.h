@@ -3,12 +3,11 @@
 
 #include <EventLoop/Algorithm.h>
 
-#include "MCValidation/lepton_plots.h"
-#include "MCValidation/neutrino_plots.h"
-#include "MCValidation/two_particle_plots.h"
-#include "MCValidation/standard_p_plots.h"
-#include "MCValidation/lifetime_plots.h"
-#include "MCValidation/truth_helpers.h"
+#include "GeneratorPlotsAlt/lepton_plots.h"
+#include "GeneratorPlotsAlt/two_particle_plots.h"
+#include "GeneratorPlotsAlt/standard_p_plots.h"
+#include "GeneratorPlotsAlt/lifetime_plots.h"
+#include "GeneratorPlotsAlt/truth_helpers.h"
 
 class MyxAODAnalysis : public EL::Algorithm
 {
@@ -21,13 +20,13 @@ public:
   int m_eventCounter; //!
 
   // Histograms for each type of particle.
-  lifetime_plots*	all; //!
-  standard_p_plots*	hs; //!
-  two_particle_plots*	twohs; //!
-  neutrino_plots*	e_neutrino; //!
-  neutrino_plots*	mu_neutrino; //!
-  lepton_plots*		e; //!
-  lepton_plots*		mu; //!
+  lifetime_plots*       all; //!
+  standard_p_plots*     hs; //!
+  two_particle_plots*   twohs; //!
+  lepton_plots*	        e_neutrino; //!
+  lepton_plots*         mu_neutrino; //!
+  lepton_plots*	        e; //!
+  lepton_plots*	        mu; //!
 
   // this is a standard constructor
   MyxAODAnalysis ();
