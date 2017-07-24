@@ -169,6 +169,10 @@ EL::StatusCode MyxAODAnalysis :: execute ()
           hs->Process(p);
           twohs->addParticle(p);
         }
+	else if (p->absPdgId() == 24) // Setting up for the W decay plots
+        {
+	  w->Process(p);
+        }
         else
         {
           // Check to see if the particle was the result of a W decay.
