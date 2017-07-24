@@ -164,31 +164,48 @@ EL::StatusCode MyxAODAnalysis :: execute ()
       if (p != nullptr) 
       {
         all->Process(p);
-        if (p->pdgId() == 35) // 35 is the higgs' pdgId.
+        if (p->absPdgId() == 35) // 35 is the Higgs' PDG id.
         {
           hs->Process(p);
           twohs->addParticle(p);
         }
-        else if (p->pdgId() == 11) // 11 is the electron.
+        else
         {
-          e->Process(p);
-        }
-        else if (p->pdgId() == 12) // 12 is the electron neutrino.
-        {
-          e_neutrino->Process(p);
-        }
-        else if (p->pdgId() == 13) // 13 is the muon.
-        {
-          mu->Process(p);
-        }
-        else if (p->pdgId() == 14) // 14 is the muon neutrino.
-        {
-          mu_neutrino->Process(p);
+          // Check to see if the particle was the result of a W decay.
+          bool WDecay = false;
+          for (int i = 0; i < p->nParents(); i++)
+          {
+            auto parent = p->parent(i);
+            if (parent->absPdgId() == 24) // 24 is the W+.
+            {
+              WDecay = true;
+              break;
+            }
+          }
+          if (WDecay)
+          {
+            if (p->absPdgId() == 11) // 11 is the electron.
+            {
+              e->Process(p);
+            }
+            else if (p->absPdgId() == 12) // 12 is the electron neutrino.
+            {
+              e_neutrino->Process(p);
+            }
+            else if (p->absPdgId() == 13) // 13 is the muon.
+            {
+              mu->Process(p);
+            }
+            else if (p->absPdgId() == 14) // 14 is the muon neutrino.
+            {
+              mu_neutrino->Process(p);
+            }
+          }
         }
       }
     }
   }
-
+  twohs->EndOfEvent();
   return EL::StatusCode::SUCCESS;
 }
 
