@@ -22,11 +22,13 @@ public:
   // Histograms for each type of particle.
   lifetime_plots*       all; //!
   standard_p_plots*     hs; //!
+  standard_p_plots*     w; //!
   two_particle_plots*   twohs; //!
   lepton_plots*	        e_neutrino; //!
   lepton_plots*         mu_neutrino; //!
   lepton_plots*	        e; //!
   lepton_plots*	        mu; //!
+  two_particle_plots*   w_decays; //!
 
   // this is a standard constructor
   MyxAODAnalysis ();

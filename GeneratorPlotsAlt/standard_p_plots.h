@@ -79,11 +79,13 @@ class standard_p_plots {
     _beta->Fill(p->p4().Beta());
     _counter++;
     _status->Fill(p->status());
-    if( p->nChildren() == 2){ 
-      if( TMath::Abs(p->child(0)->pdgId()) == TMath::Abs(p->child(1)->pdgId()) ){ 
-     	_BRs->Fill(TMath::Abs(p->child(0)->pdgId())); 
-      } else std::cout << "pdgIds aren't equal! Decay is to: " << p->child(0)->pdgId() <<", " << p->child(1)->pdgId() << std::endl; 
-    } else std::cout << "doesn't have two children!" << std::endl; 
+    if (p->nChildren() == 2)
+    { 
+      if (TMath::Abs(p->child(0)->pdgId()) == TMath::Abs(p->child(1)->pdgId()))
+      { 
+     	  _BRs->Fill(TMath::Abs(p->child(0)->pdgId())); 
+      }
+    }
     // Lxyz means getting the parent verticies
     //cout << "p: " << p->hasProdVtx() << " d: " << p->hasDecayVtx() << endl;
     if (p->hasProdVtx() && p->hasDecayVtx()) {
@@ -113,11 +115,13 @@ class standard_p_plots {
     }
 
   }
+
   void EndOfEvent()
   {
     _N->Fill(_counter);
     _counter = 0;
   }
+
  private:
   int _counter;
   TH1F *_N;

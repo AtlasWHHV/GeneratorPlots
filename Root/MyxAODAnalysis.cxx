@@ -80,12 +80,13 @@ EL::StatusCode MyxAODAnalysis :: histInitialize ()
   // Initializing histograms
   all = new lifetime_plots ("all", "all ", wk());
   hs = new standard_p_plots ("hs", "#h_{s} ", wk());
-  twohs = new two_particle_plots ("twoHS", "Two HSs ", wk());
+  twohs = new two_particle_plots ("twoHS", "Two HSs ", wk(), false);
   e_neutrino = new lepton_plots ("e_neutrino_", "\\nu_{e} ", wk(), false);
   mu_neutrino = new lepton_plots ("mu_neutrino_", "\\nu_{\\mu} ", wk(), false);
   e = new lepton_plots ("e_", "e ", wk(), true);
   mu = new lepton_plots ("mu_", "\\mu ", wk(), true);
-
+  w = new standard_p_plots("w_", "w ", wk());
+  w_decays = new two_particle_plots("w_decays_", "w decays ", wk(), true);
   return EL::StatusCode::SUCCESS;
 }
 
@@ -169,6 +170,10 @@ EL::StatusCode MyxAODAnalysis :: execute ()
           hs->Process(p);
           twohs->addParticle(p);
         }
+        else if (p->absPdgId() == 24) // Setting up for the W decay plots
+        {
+          w->Process(p);
+        }
         else
         {
           // Check to see if the particle was the result of a W decay.
@@ -187,25 +192,32 @@ EL::StatusCode MyxAODAnalysis :: execute ()
             if (p->absPdgId() == 11) // 11 is the electron.
             {
               e->Process(p);
+              w_decays->addParticle(p);
             }
             else if (p->absPdgId() == 12) // 12 is the electron neutrino.
             {
               e_neutrino->Process(p);
+              w_decays->addParticle(p);
             }
             else if (p->absPdgId() == 13) // 13 is the muon.
             {
               mu->Process(p);
+              w_decays->addParticle(p);
             }
             else if (p->absPdgId() == 14) // 14 is the muon neutrino.
             {
               mu_neutrino->Process(p);
+              w_decays->addParticle(p);
             }
           }
         }
       }
     }
   }
+  hs->EndOfEvent();
   twohs->EndOfEvent();
+  w->EndOfEvent();
+  w_decays->EndOfEvent();
   return EL::StatusCode::SUCCESS;
 }
 
