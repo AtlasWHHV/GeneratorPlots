@@ -54,7 +54,6 @@ int main( int argc, char* argv[] )
   // Create an EventLoop job:
   EL::Job job;
   job.sampleHandler(sh);
-  job.options()->setDouble(EL::Job::optMaxEvents, 500);
 
   // Add our analysis to the job:
   MyxAODAnalysis* alg = new MyxAODAnalysis();
