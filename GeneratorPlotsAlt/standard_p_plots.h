@@ -70,7 +70,7 @@ class standard_p_plots {
 
   // Fill the plots.
   void Process(const xAOD::TruthParticle *p) {
-    // _mass->Fill(p->m()*0.001);
+    _mass->Fill(p->m()*0.001);
     _pz->Fill(TMath::Abs(p->pz())*0.001);
     _pt->Fill(p->pt()*0.001);
     _eta->Fill(p->eta());
@@ -145,8 +145,6 @@ class standard_p_plots {
   TH1F *_evtsID_lxy;
   TH1F *_evtsMS_B_lxy;
   TH1F *_evtsMS_E_lz;
-  // added W
-  TH1F *_W;
 
 };
 

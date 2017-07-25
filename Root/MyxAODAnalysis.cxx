@@ -85,6 +85,7 @@ EL::StatusCode MyxAODAnalysis :: histInitialize ()
   mu_neutrino = new lepton_plots ("mu_neutrino_", "\\nu_{\\mu} ", wk(), false);
   e = new lepton_plots ("e_", "e ", wk(), true);
   mu = new lepton_plots ("mu_", "\\mu ", wk(), true);
+  w = new standard_p_plots("w","w",wk());
 
   return EL::StatusCode::SUCCESS;
 }
