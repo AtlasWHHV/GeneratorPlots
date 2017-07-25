@@ -85,7 +85,7 @@ EL::StatusCode MyxAODAnalysis :: histInitialize ()
   mu_neutrino = new lepton_plots ("mu_neutrino_", "\\nu_{\\mu} ", wk(), false);
   e = new lepton_plots ("e_", "e ", wk(), true);
   mu = new lepton_plots ("mu_", "\\mu ", wk(), true);
-  w = new standard_p_plots("w","w",wk());
+  w = new standard_p_plots("w", "w ", wk());
 
   return EL::StatusCode::SUCCESS;
 }
@@ -170,9 +170,9 @@ EL::StatusCode MyxAODAnalysis :: execute ()
           hs->Process(p);
           twohs->addParticle(p);
         }
-	else if (p->absPdgId() == 24) // Setting up for the W decay plots
+        else if (p->absPdgId() == 24) // Setting up for the W decay plots
         {
-	  w->Process(p);
+          w->Process(p);
         }
         else
         {
