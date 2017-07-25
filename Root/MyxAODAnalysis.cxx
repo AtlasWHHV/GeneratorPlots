@@ -1,7 +1,7 @@
 #include <EventLoop/Job.h>
 #include <EventLoop/StatusCode.h>
 #include <EventLoop/Worker.h>
-#include <GeneratorPlotsAlt/MyxAODAnalysis.h>
+#include <GeneratorPlots/MyxAODAnalysis.h>
 
 // Infrastructure include(s):
 #include "xAODRootAccess/Init.h"
@@ -9,7 +9,7 @@
 
 // Gordoncode
 #include "xAODTruth/TruthEventContainer.h"
-#include "GeneratorPlotsAlt/truth_helpers.h"
+#include "GeneratorPlots/truth_helpers.h"
 
 // ASG status code check
 #include <AsgTools/MessageCheck.h>
@@ -21,11 +21,11 @@
 #include "xAODJet/JetContainer.h"
 
 // Validation histograms:
-#include "GeneratorPlotsAlt/lepton_plots.h"
-#include "GeneratorPlotsAlt/two_particle_plots.h"
-#include "GeneratorPlotsAlt/standard_p_plots.h"
-#include "GeneratorPlotsAlt/lifetime_plots.h"
-#include "GeneratorPlotsAlt/truth_helpers.h"
+#include "GeneratorPlots/lepton_plots.h"
+#include "GeneratorPlots/two_particle_plots.h"
+#include "GeneratorPlots/standard_p_plots.h"
+#include "GeneratorPlots/lifetime_plots.h"
+#include "GeneratorPlots/truth_helpers.h"
 
 // Config
 const char *APP_NAME = "validationPlots";

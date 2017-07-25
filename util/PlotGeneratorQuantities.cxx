@@ -12,7 +12,7 @@
 #include "SampleHandler/DiskListLocal.h"
 #include <TSystem.h>
 
-#include "GeneratorPlotsAlt/MyxAODAnalysis.h"
+#include "GeneratorPlots/MyxAODAnalysis.h"
 
 #include <iostream>
 #include <string>

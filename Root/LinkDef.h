@@ -1,4 +1,4 @@
-#include <GeneratorPlotsAlt/MyxAODAnalysis.h>
+#include <GeneratorPlots/MyxAODAnalysis.h>
 
 #ifdef __CINT__
 
