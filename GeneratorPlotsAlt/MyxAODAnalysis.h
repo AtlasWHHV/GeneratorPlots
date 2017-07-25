@@ -28,6 +28,7 @@ public:
   lepton_plots*         mu_neutrino; //!
   lepton_plots*	        e; //!
   lepton_plots*	        mu; //!
+  two_particle_plots*   w_decays; //!
 
   // this is a standard constructor
   MyxAODAnalysis ();
