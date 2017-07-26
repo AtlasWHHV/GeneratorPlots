@@ -19,11 +19,17 @@ class lifetime_plots {
     {
       _deltaT = new TH1F((name + "DeltaT").c_str(), (title + " Delta t; t_{dec} - t_{prod} [ns]").c_str(),260,-6,20);
       wk->addOutput (_deltaT);
+      _count = 0;
+      _longlivedN = new TH1F((name + "longlivedN").c_str(), (title + " long-lived N ").c_str(), 100, 0, 100);
+      wk->addOutput (_longlivedN);
     }
 
     // Fill the plots.
     void Process(const xAOD::TruthParticle *p) 
     {
+      if (p->hasDecayVtx() && (p->decayVtx()->perp() > 11000.0)) {
+        _count++;
+      }
       if (p->hasProdVtx() && p->hasDecayVtx())
       {
         _deltaT->Fill(p->decayVtx()->v4().T()*0.001 - p->prodVtx()->v4().T()*0.001);
@@ -36,8 +42,15 @@ class lifetime_plots {
       }
     }
 
+    void EndOfEvent()
+    {
+      _longlivedN->Fill(_count);
+      _count = 0;
+    }
   private:
     TH1F *_deltaT;
+    TH1F *_longlivedN;
+    int _count;
 };
 
 #endif

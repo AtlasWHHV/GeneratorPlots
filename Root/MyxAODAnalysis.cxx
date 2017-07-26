@@ -214,6 +214,7 @@ EL::StatusCode MyxAODAnalysis :: execute ()
       }
     }
   }
+  all->EndOfEvent();
   hs->EndOfEvent();
   twohs->EndOfEvent();
   w->EndOfEvent();
